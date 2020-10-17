@@ -80,7 +80,7 @@ const Topnav = () => {
                                     onClick = {()=>{ScrollToTop(0, 500)}}
                                 >
                                     <FontAwesomeIcon icon = {faHome} className="home-icon"/>
-                                    Impreza Estate
+                                    Home
                                 </NavLink>
                             </li>
                             <li>
