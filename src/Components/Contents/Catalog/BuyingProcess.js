@@ -5,7 +5,12 @@ import {useHistory} from "react-router-dom";
 import ScrollToTop from "../../GeneralModules/ScrollToTop";
 
 const BuyingProcess = (props) => {
-    ScrollToTop(400, 500);
+    if (window.innerWidth <= 1023){
+        ScrollToTop(280, 500);
+    }
+    if (window.innerWidth <= 767){
+        ScrollToTop(250, 500);
+    }
     const houseId = props.match.params.id;
     const {houseInfo} = props;
     const history = useHistory();
