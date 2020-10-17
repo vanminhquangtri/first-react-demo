@@ -88,29 +88,28 @@ const CatalogList = (props) => {
     }
     // update state of conditions when choose any value of criteria-top-up (except storeys and bedrooms) 
     const updatRangeConditions = (ev, minDefault, maxDefault, condition, unit) => {
-        // defind changed input and its value
-        const target = ev.target;
-        // when enter:
+        // defind changed input and its value when press enter input
+        const target = ev.target;        
         if (ev.key === "Enter"){
             // defind parentNode ===> choose all input tags class = min, max ===> choose value
             let minValue = target.parentNode.querySelector("input.min").value;
             let maxValue = target.parentNode.querySelector("input.max").value;
-            // if min value === empty ===> min value === min
-            // if max value === empty ===> max value === max
+            // if min value === empty ===> min value === minDefault
+            // if max value === empty ===> max value === maxDefault
             if (minValue === "") {minValue = minDefault};
             if (maxValue === "") {maxValue = maxDefault};
             // set state of conditions
             const currentConditions = {...state.conditions};
             currentConditions[condition].min = parseFloat(minValue);
             currentConditions[condition].max = parseFloat(maxValue);
-            // append the value to the choosen box
-            target.parentNode.parentNode.parentNode.querySelector(".choosen").textContent = ": " + formatNumber(unit, minValue) + " - " + formatNumber(unit, maxValue);
             setState((prevState) => {
                 return {
                     ...prevState,
                     conditions: currentConditions
                 }
             })
+            // append the value to the choosen box
+            target.parentNode.parentNode.parentNode.querySelector(".choosen").textContent = ": " + formatNumber(unit, minValue) + " - " + formatNumber(unit, maxValue);
         }
     }
     // set state of conditions (except storeys and bedrooms) to null if click close button
@@ -126,42 +125,21 @@ const CatalogList = (props) => {
         }) 
     }
     // get the highest / lowest value of house (highest price, lowest land__area, etc)
-        const {conditions} = state;
-        // get properties name base on conditions state 
-        let propValue = [];
-        for (let property in conditions){
-            let obj = {};
-            obj[property] = [];
-            propValue.push(obj)
-        }
-        // loop through all item of propValue and get value of house base on property name 
-        propValue.forEach((item, index) => {
-            for (let propName in item) {
-                houseInfo.forEach((house, index) => {
-                    item[propName].push(house[propName])
-                });
-                // sort value of each property ascending
-                item[propName].sort(function(a, b){
-                    return a - b
-                });
-            }
+    const getMinMax = (propertyName, limit) => {
+        const valueList = [];
+        houseInfo.forEach((house) => {
+            valueList.push(house[propertyName])
         })
-        const getHighestLowestValue = (valueName, edge) => {
-            // access the current value array;
-            const currentValue = [...propValue];
-            var value;
-            // loop all item, get the exact item has the property name match the passed value name
-            currentValue.forEach((item, index) => {
-                if (item[valueName]){
-                    if (edge === "min") {
-                        value = item[valueName][0]
-                    } else {
-                        value = item[valueName][item[valueName].length - 1]
-                    }
-                }
-            })
-            return value;
+        valueList.sort((a, b) => {
+            return a - b
+        })
+        if (limit === "min") {
+            return valueList[0];
         }
+        if (limit === "max") {
+            return valueList[valueList.length - 1]
+        }
+    }
     useEffect(() => {
         // show / hide top-up box when click on criteria name
         const criteriaBtn = document.querySelectorAll(".criteria");
@@ -278,16 +256,16 @@ const CatalogList = (props) => {
                                 <form className="top-up-form">
                                     <input 
                                         type="text" 
-                                        placeholder = {getHighestLowestValue("price", "min")}
+                                        placeholder = {getMinMax("price", "min")}
                                         className="min"
-                                        onKeyUp = {(ev)=>{updatRangeConditions(ev, getHighestLowestValue("price", "min"), getHighestLowestValue("price", "max"), "price", "$")}}
+                                        onKeyUp = {(ev)=>{updatRangeConditions(ev, getMinMax("price", "min"), getMinMax("price", "max"), "price", "$")}}
                                     ></input>
                                     <label>to</label>
                                     <input 
                                         type="text" 
-                                        placeholder = {getHighestLowestValue("price", "max")}
+                                        placeholder = {getMinMax("price", "max")}
                                         className="max"
-                                        onKeyUp = {(ev)=>{updatRangeConditions(ev, getHighestLowestValue("price", "min"), getHighestLowestValue("price", "max"), "price", "$")}}
+                                        onKeyUp = {(ev)=>{updatRangeConditions(ev, getMinMax("price", "min"), getMinMax("price", "max"), "price", "$")}}
                                     ></input>
                                 </form>
                             </div>
@@ -340,16 +318,16 @@ const CatalogList = (props) => {
                                 <form className="top-up-form">
                                     <input 
                                         type="text" 
-                                        placeholder = {getHighestLowestValue("living__area", "min")}
+                                        placeholder = {getMinMax("living__area", "min")}
                                         className="min"
-                                        onKeyUp = {(ev)=>{updatRangeConditions(ev, getHighestLowestValue("living__area", "min"), getHighestLowestValue("living__area", "max"), "living__area", "")}}
+                                        onKeyUp = {(ev)=>{updatRangeConditions(ev, getMinMax("living__area", "min"), getMinMax("living__area", "max"), "living__area", "")}}
                                     ></input>
                                     <label>to</label>
                                     <input 
                                         type="text" 
-                                        placeholder = {getHighestLowestValue("living__area", "max")}
+                                        placeholder = {getMinMax("living__area", "max")}
                                         className="max"
-                                        onKeyUp = {(ev)=>{updatRangeConditions(ev, getHighestLowestValue("living__area", "min"), getHighestLowestValue("living__area", "max"), "living__area", "")}}
+                                        onKeyUp = {(ev)=>{updatRangeConditions(ev, getMinMax("living__area", "min"), getMinMax("living__area", "max"), "living__area", "")}}
                                     ></input>
                                 </form>
                             </div>
@@ -368,16 +346,16 @@ const CatalogList = (props) => {
                                 <form className="top-up-form">
                                     <input 
                                         type="text" 
-                                        placeholder = {getHighestLowestValue("land__area", "min")}
+                                        placeholder = {getMinMax("land__area", "min")}
                                         className="min"
-                                        onKeyUp = {(ev)=>{updatRangeConditions(ev, getHighestLowestValue("land__area", "min"), getHighestLowestValue("land__area", "max"), "land__area", "")}}
+                                        onKeyUp = {(ev)=>{updatRangeConditions(ev, getMinMax("land__area", "min"), getMinMax("land__area", "max"), "land__area", "")}}
                                     ></input>
                                     <label>to</label>
                                     <input 
                                         type="text" 
-                                        placeholder = {getHighestLowestValue("land__area", "max")}
+                                        placeholder = {getMinMax("land__area", "max")}
                                         className="max"
-                                        onKeyUp = {(ev)=>{updatRangeConditions(ev, getHighestLowestValue("land__area", "min"), getHighestLowestValue("land__area", "max"), "land__area", "")}}
+                                        onKeyUp = {(ev)=>{updatRangeConditions(ev, getMinMax("land__area", "min"), getMinMax("land__area", "max"), "land__area", "")}}
                                     ></input>
                                 </form>
                             </div>
