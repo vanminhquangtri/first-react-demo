@@ -5,6 +5,7 @@ import TinySlider from "tiny-slider-react";
 import {useEffect} from "react";
 import {NavLink} from 'react-router-dom';
 import urlSlug from "url-slug";
+
 // format price
 function formatNumber(num) {
     return "$" + num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
@@ -48,7 +49,7 @@ const Topslide = (props) => {
                                                     `}
                                                 />
                                                 <div className="info">
-                                                    <span className="address">{house.address}</span>
+                                                    <span className="address ">{house.address}</span>
                                                     <div className="price-area">
                                                         <span className="price">{formatNumber(house.price)}</span>
                                                         <span className="area">

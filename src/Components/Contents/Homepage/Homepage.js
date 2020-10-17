@@ -1,6 +1,7 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
 import ScrollToTop from "../../GeneralModules/ScrollToTop";
+
 const Homepage = () => {
     ScrollToTop(0, 500);
     return (

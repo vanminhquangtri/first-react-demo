@@ -51,41 +51,6 @@ const CatalogList = (props) => {
             }
         })
     }
-    // set state of conditions to original (all are null) when click button "View Full Catalog" and redirect page (from cataloglist to each house)
-    const resetConditions = () => {
-        setState((prevState) => {
-            return {
-                ...prevState,
-                conditions: {
-                    storeys: null,
-                    bedrooms: null,
-                    price: {
-                        min: null,
-                        max: null
-                    },
-                    living__area: {
-                        min: null,
-                        max: null
-                    },
-                    land__area: {
-                        min: null,
-                        max: null
-                    }
-                }
-            }
-        })
-    }
-    // set state of storeys and bedrooms to null if click close button
-    const removeCondition = (condition) => {
-        let currentConditions = {...state.conditions}
-        currentConditions[condition] = null;
-        setState((prevState) => {
-            return {
-                ...prevState,
-                conditions: currentConditions
-            }
-        })
-    }
     // update state of conditions when choose any value of criteria-top-up (except storeys and bedrooms) 
     const updatRangeConditions = (ev, minDefault, maxDefault, condition, unit) => {
         // defind changed input and its value when press enter input
@@ -112,18 +77,6 @@ const CatalogList = (props) => {
             target.parentNode.parentNode.parentNode.querySelector(".choosen").textContent = ": " + formatNumber(unit, minValue) + " - " + formatNumber(unit, maxValue);
         }
     }
-    // set state of conditions (except storeys and bedrooms) to null if click close button
-    const removeRangeCondition = (condition) => {
-        let currentRangeConditions = {...state.conditions}
-        currentRangeConditions[condition].min = null;
-        currentRangeConditions[condition].max = null;
-        setState((prevState) => {
-            return {
-                ...prevState,
-                conditions: currentRangeConditions
-            }
-        }) 
-    }
     // get the highest / lowest value of house (highest price, lowest land__area, etc)
     const getMinMax = (propertyName, limit) => {
         const valueList = [];
@@ -139,6 +92,53 @@ const CatalogList = (props) => {
         if (limit === "max") {
             return valueList[valueList.length - 1]
         }
+    }
+    // set state of storeys and bedrooms to null if click close button
+    const removeCondition = (condition) => {
+        let currentConditions = {...state.conditions}
+        currentConditions[condition] = null;
+        setState((prevState) => {
+            return {
+                ...prevState,
+                conditions: currentConditions
+            }
+        })
+    }
+    // set state of conditions (except storeys and bedrooms) to null if click close button
+    const removeRangeCondition = (condition) => {
+        let currentRangeConditions = {...state.conditions}
+        currentRangeConditions[condition].min = null;
+        currentRangeConditions[condition].max = null;
+        setState((prevState) => {
+            return {
+                ...prevState,
+                conditions: currentRangeConditions
+            }
+        }) 
+    }
+    // set state of conditions to original (all are null) when click button "View Full Catalog" and redirect page (from cataloglist to each house)
+    const resetConditions = () => {
+        setState((prevState) => {
+            return {
+                ...prevState,
+                conditions: {
+                    storeys: null,
+                    bedrooms: null,
+                    price: {
+                        min: null,
+                        max: null
+                    },
+                    living__area: {
+                        min: null,
+                        max: null
+                    },
+                    land__area: {
+                        min: null,
+                        max: null
+                    }
+                }
+            }
+        })
     }
     useEffect(() => {
         // show / hide top-up box when click on criteria name
