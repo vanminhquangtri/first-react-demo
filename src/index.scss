@@ -394,7 +394,7 @@
     .container-fluid {
         padding: 0;
         .row {
-            height: 585px;
+            height: 435px;
             margin: 0 0 $col-padding-left-right/2 0;
             padding: 0 $col-padding-left-right;
             .col-5 {
@@ -425,6 +425,7 @@
             .col-7 {
                 padding: 0;
                 height: 100%;
+                border-radius: 20px;
                 background : {
                     repeat: no-repeat;
                     size: cover;
@@ -1310,11 +1311,28 @@
               }
           }
       }
+      .strength {
+        .container-fluid {
+            .row {
+                .col-4 {
+                    .ad-container {
+                        height: 130px;
+                        a {
+                            font-size: $banner-font-size / 2;
+                        }
+                    }
+                }
+            }
+        }
+      }
       /*advantage*/
       .advantage {
           .container-fluid {
               .row {
-                  height: 430px;
+                  height: 350px;
+              }
+              .content .title {
+                  font-size: $banner-font-size / 1.2 !important;
               }
           }
       }
