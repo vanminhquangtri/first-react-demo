@@ -5,6 +5,9 @@ import {useHistory} from "react-router-dom";
 import ScrollToTop from "../../GeneralModules/ScrollToTop";
 
 const BuyingProcess = (props) => {
+    if (window.innerWidth > 1023){
+        ScrollToTop(370, 500);
+    }
     if (window.innerWidth <= 1023){
         ScrollToTop(280, 500);
     }
